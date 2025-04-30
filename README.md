@@ -47,6 +47,31 @@ This workflow consists of several processes, each assigned to a specific SLURM p
 
 ---
 
+## ✏️ Customize the Processes
+
+The example processes in this workflow use `sleep 30` as a placeholder.
+Replace these with your actual computational tasks or scripts.
+
+For example, in `daylight_controlled_workflow.nf`, change:
+
+```groovy
+"""
+sleep 30
+"""
+```
+
+to something like:
+
+```groovy
+"""
+python run_simulation.py --input params.txt
+"""
+```
+
+This allows you to adapt the workflow to your real workload while keeping the daylight scheduling logic.
+
+---
+
 ## ☀️ Daylight-Aware Scheduling
 
 The `slurm_daylight_scheduler.sh` script schedules tasks based on the time of day:
