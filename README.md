@@ -1,29 +1,69 @@
-# Daylight-Controlled SLURM Workflow (Nextflow)
+# 🌞 Daylight-Controlled SLURM Workflow (Nextflow)
 
-This repository contains a modular and energy-aware HPC workflow written in [Nextflow](https://www.nextflow.io/), designed for execution on the HU Berlin SLURM cluster.
+This repository provides two Nextflow-based workflows designed for the SLURM cluster at **HPC@HU (Humboldt University, Berlin)**. They enable preferential scheduling of **energy-intensive jobs during daylight hours** — either using fixed time windows or dynamically retrieved sunrise/sunset times for Berlin.
 
-The pipeline schedules high-energy or GPU-heavy jobs **preferentially during daylight hours** (07:00–19:00), while ensuring other jobs execute without delay.
-
+✅ The workflows are **portable** and can be adapted to other SLURM-based HPC systems by:
+- Editing **latitude/longitude** in `slurm_daylight_automated_scheduler.sh`
+- Updating **partition settings** in `nextflow.config`
 ---
 
 ## 🔧 Prerequisites
 
-1. An account on HU Berlin's HPC system
-2. Access to the `slurm-login` node
-3. Nextflow installed on the cluster (`module load nextflow`)
+- An account on HU Berlin's HPC system
+- Access to the `slurm-login` node
+- Nextflow installed on the cluster (`module load nextflow`)
+- If using the automated scheduler: `jq` binary available in your home directory (`$HOME/jq`)
 
 ---
 
 ## 🚀 Quick Start
 
-Open your terminal and run the following:
+### 📘 Option 1: Fixed Daylight Window (07:00–19:00)
+This uses a static window for daylight. You can modify the `slurm_daylight_scheduler.sh` script to change that range.
 
 ```bash
-ssh username@slurm-login.hpc-service.hu-berlin.de
+ssh your_username@slurm-login.hpc-service.hu-berlin.de
 module load nextflow
 chmod +x slurm_daylight_scheduler.sh
 nextflow run daylight_controlled_workflow.nf -resume
 ```
+---
+### 📗 Option 2: Automatically Fetched Daylight Times (Berlin)
+
+This pulls real-time daylight data for Berlin from an online API.
+
+```bash
+ssh your_username@slurm-login.hpc-service.hu-berlin.de
+module load nextflow
+chmod +x slurm_daylight_automated_scheduler.sh
+nextflow run daylight_automated_workflow.nf -resume
+```
+⚠️ This requires a working copy of jq in your home directory as $HOME/jq.
+
+---
+
+## ☀️ Daylight-Aware Scheduling
+
+This workflow supports two options for energy-aware job scheduling:
+
+🔹 Option 1: Fixed Daylight Window (slurm_daylight_scheduler.sh)
+
+This script assumes a fixed daylight window between 07:00 and 19:00.
+- It checks the current time.
+- If the current time is outside the daylight window, it sets a SLURM directive --begin=... to delay the job until 07:00 the next morning.
+- If the job cannot run during daylight (e.g., due to cluster load), it will start as soon as resources become available afterward.
+
+This option is simple and lets users easily adjust the daylight window manually in the script if needed.
+
+🔹 Option 2: Dynamic Sunlight Detection (slurm_daylight_automated_scheduler.sh)
+
+This script automatically retrieves the actual sunrise and sunset times for Berlin using the sunrise-sunset.org API.
+- It fetches real daylight times based on the current date and location (Berlin: lat=52.52, lng=13.41).
+- It adjusts for practical energy use by setting jobs to start 1 hour after sunrise and before 1 hour prior to sunset.
+- If the current time is outside this refined daylight window, the script delays the job to the next sunrise period.
+- If for some reason the job can't run during daylight (e.g., all nodes busy), it will still run afterward when resources are available.
+
+💡 Use daylight_controlled_workflow.nf with Option 1 (fixed daylight), and daylight_automated_workflow.nf with Option 2 (real sunlight detection).
 
 ---
 
@@ -39,11 +79,15 @@ This workflow consists of several processes, each assigned to a specific SLURM p
 | `highenergy_memory_task` | Memory-heavy job, prefers daylight (optional) | `large_memory`  | Disabled by default (optional)          |
 | `gpu_task`               | GPU job, prefers daylight (optional)          | `gpu`           | Disabled by default (optional)          |
 
----
-
 ### Notes:
 - Tasks marked as **optional** are initially **commented out** and must be manually enabled.
 - Daylight-aware processes will attempt to start between 07:00–19:00 but will still run later if needed.
+
+To enable optional tasks: edit daylight_controlled_workflow.nf or daylight_automated_workflow.nf and uncomment:
+```groovy
+// highenergy_memory_task(cluster_options_ch)
+// gpu_task(cluster_options_ch)
+```
 
 ---
 
@@ -72,34 +116,6 @@ This allows you to adapt the workflow to your real workload while keeping the da
 
 ---
 
-## ☀️ Daylight-Aware Scheduling
-
-The `slurm_daylight_scheduler.sh` script schedules tasks based on the time of day:
-
-- It checks the current system time.
-- If outside daylight hours (07:00–19:00), it adds a SLURM `--begin=...` directive to delay the job until the next daylight window.
-- If a job cannot start during daylight (e.g., due to cluster load), it will start as soon as possible afterward.
-
----
-
-## ⚙️ Enabling GPU or Large Memory Jobs
-
-By default, GPU and large-memory tasks are disabled for faster testing because those partitions are often heavily used.
-
-To enable them:
-
-1. Open the `daylight_controlled_workflow.nf` file.
-2. In the `workflow {}` block, locate and uncomment:
-
-```groovy
-// highenergy_memory_task(cluster_options_ch)
-// gpu_task(cluster_options_ch)
-```
-
-After uncommenting, GPU and large-memory jobs will be included and scheduled with daylight-awareness.
-
----
-
 ## 📦 Output and Work Directory
 
 - All intermediate files and process execution data are stored in the `work/` directory.
@@ -124,13 +140,26 @@ sacct -S today -u your_username
 
 ```
 .
-├── daylight_controlled_workflow.nf      # Main workflow file
-├── nextflow.config                      # SLURM resource and label definitions
-├── slurm_daylight_scheduler.sh          # Script to delay jobs until daylight
-├── README.md                            # You are here
-├── work/                                # Working directory (auto-generated)
-└── .nextflow/                           # Internal Nextflow state and cache
+├── daylight_controlled_workflow.nf           # Main workflow using fixed daylight hours (07:00–19:00)
+├── daylight_automated_workflow.nf            # Main workflow using real-time sunrise/sunset from API
+├── nextflow.config                           # SLURM resource and label definitions
+├── slurm_daylight_scheduler.sh               # Fixed daylight scheduler (default 07:00–19:00)
+├── slurm_daylight_automated_scheduler.sh     # Automated daylight scheduler (Berlin-based sunrise/sunset)
+├── README.md                                 # You are here
+├── work/                                     # Working directory (auto-generated by Nextflow)
+└── .nextflow/                                # Nextflow cache and runtime metadata
 ```
+
+---
+
+## 📥 Getting jq Locally
+
+⚠️ If jq is not available on your system (as is the case on HPC@HU), download it manually:
+
+    wget -O $HOME/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
+    chmod +x $HOME/jq
+
+Make sure it’s executable and referenced as \$HOME/jq in the script. No need to add it to your $PATH.
 
 ---
 
