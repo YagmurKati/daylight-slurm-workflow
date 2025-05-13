@@ -195,7 +195,8 @@ Carbon-aware scheduling has also been shown to reduce emissions in practice. A s
 
 [1] IEA, “Monthly generation of solar PV in Germany,” International Energy Agency, 2023. Available: https://www.iea.org/data-and-statistics/charts/monthly-generation-of-solar-pv-in-germany  
 [2] Fraunhofer ISE, “Public Net Electricity Generation in Germany 2023,” Fraunhofer Institute for Solar Energy Systems, 2024. Available: https://www.ise.fraunhofer.de/en/press-media/press-releases/2024/public-electricity-generation-2023-renewable-energies-cover-the-majority-of-german-electricity-consumption-for-the-first-time.html  
-[3] van der Veen, J., Hoekstra, G., & Lukkien, J., “Carbon-Aware Scheduling for ING’s Data Pipelines,” *Proceedings of the 13th ACM International Conference on Future Energy Systems (e-Energy ’22)*, June 2022. Available: https://pure.tudelft.nl/ws/portalfiles/portal/217003316/3663529.3663862.pdf
+[3] Den Toonder, J., Braakman, P., & Durieux, T. (2024). S.C.A.L.E: A CO2-Aware Scheduler for OpenShift at ING. FSE Companion - Companion Proceedings of the 32nd ACM International
+Conference on the Foundations of Software Engineering (pp. 429-439). ACM. https://doi.org/10.1145/3663529.3663862
 
 ---
 
