@@ -1,13 +1,13 @@
-# 🌞 Daylight-Controlled SLURM Workflow (Nextflow)
+#  Daylight-Controlled SLURM Workflow (Nextflow)
 
 This repository provides two Nextflow-based workflows designed for the SLURM cluster at **HPC@HU (Humboldt University, Berlin)**. They enable preferential scheduling of **energy-intensive jobs during daylight hours** — either using fixed time windows or dynamically retrieved sunrise/sunset times for Berlin.
 
-✅ The workflows are **portable** and can be adapted to other SLURM-based HPC systems by:
+The workflows are **portable** and can be adapted to other SLURM-based HPC systems by:
 - Editing **latitude/longitude** in `slurm_daylight_automated_scheduler.sh`
 - Updating **partition settings** in `nextflow.config`
 ---
 
-## 🔧 Prerequisites
+## Prerequisites
 
 - An account on HU Berlin's HPC system
 - Access to the `slurm-login` node
@@ -16,7 +16,7 @@ This repository provides two Nextflow-based workflows designed for the SLURM clu
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 📘 Option 1: Fixed Daylight Window (07:00–19:00)
 This uses a static window for daylight. You can modify the `slurm_daylight_scheduler.sh` script to change that range.
@@ -42,7 +42,7 @@ nextflow run daylight_automated_workflow.nf -resume
 
 ---
 
-## ☀️ Daylight-Aware Scheduling
+## Daylight-Aware Scheduling
 
 This workflow supports two options for energy-aware job scheduling:
 
@@ -67,7 +67,7 @@ This script automatically retrieves the actual sunrise and sunset times for Berl
 
 ---
 
-## 📜 Workflow Overview
+## Workflow Overview
 
 This workflow consists of several processes, each assigned to a specific SLURM partition depending on its resource requirements.
 
@@ -91,7 +91,7 @@ To enable optional tasks: edit daylight_controlled_workflow.nf or daylight_autom
 
 ---
 
-## ✏️ Customize the Processes
+## Customize the Processes
 
 The example processes in this workflow use `sleep 30` as a placeholder.
 Replace these with your actual computational tasks or scripts.
@@ -116,7 +116,7 @@ This allows you to adapt the workflow to your real workload while keeping the da
 
 ---
 
-## 📦 Output and Work Directory
+## Output and Work Directory
 
 - All intermediate files and process execution data are stored in the `work/` directory.
 - Each job’s SLURM submission script, stdout, stderr, and input/output files are located under a unique hash-named subfolder.
@@ -152,7 +152,7 @@ sacct -S today -u your_username
 
 ---
 
-## 📥 Getting jq Locally
+## Getting jq Locally
 
 ⚠️ If jq is not available on your system (as is the case on HPC@HU), download it manually:
 
@@ -163,7 +163,7 @@ Make sure it’s executable and referenced as \$HOME/jq in the script. No need t
 
 ---
 
-## 🧼 Cleanup
+## Cleanup
 
 To clean up all intermediate files:
 
@@ -173,7 +173,7 @@ rm -rf work/ .nextflow/ .nextflow.log
 
 ---
 
-## 🛠️  Debugging
+## Debugging
 
 For additional diagnostics:
 
@@ -183,7 +183,7 @@ nextflow run daylight_controlled_workflow.nf -resume -with-trace -with-report
 
 ---
 
-## 🌞 Why Daylight Scheduling?
+## Why Daylight Scheduling?
 
 Running energy-intensive computing tasks during daylight hours (07:00–19:00) helps reduce the carbon footprint of high-performance computing. This is because the share of solar energy in Germany's electricity supply is much higher during these hours, especially in spring and summer.
 
@@ -191,7 +191,7 @@ In June and July, solar energy production in Germany reaches its yearly peak, ac
 
 Carbon-aware scheduling has also been shown to reduce emissions in practice. A scheduling system called S.C.A.L.E., developed at ING and TU Delft, delayed computing jobs to periods of lower grid carbon intensity. This approach reduced the carbon emissions of data pipelines by about 20% [3].
 
-### 📚 References
+### References
 
 [1] IEA, “Monthly generation of solar PV in Germany,” International Energy Agency, 2023. Available: https://www.iea.org/data-and-statistics/charts/monthly-generation-of-solar-pv-in-germany  
 [2] Fraunhofer ISE, “Public Net Electricity Generation in Germany 2023,” Fraunhofer Institute for Solar Energy Systems, 2024. Available: https://www.ise.fraunhofer.de/en/press-media/press-releases/2024/public-electricity-generation-2023-renewable-energies-cover-the-majority-of-german-electricity-consumption-for-the-first-time.html  
