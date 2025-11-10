@@ -28,7 +28,7 @@ chmod +x slurm_daylight_scheduler.sh
 nextflow run daylight_controlled_workflow.nf -resume
 ```
 ---
-### 📗 Option 2: Automatically Fetched Daylight Times (Berlin)
+### Option 2: Automatically Fetched Daylight Times (Berlin)
 
 This pulls real-time daylight data for Berlin from an online API.
 
@@ -38,7 +38,7 @@ module load nextflow
 chmod +x slurm_daylight_automated_scheduler.sh
 nextflow run daylight_automated_workflow.nf -resume
 ```
-⚠️ This requires a working copy of jq in your home directory as $HOME/jq.
+This requires a working copy of jq in your home directory as $HOME/jq.
 
 ---
 
@@ -46,7 +46,7 @@ nextflow run daylight_automated_workflow.nf -resume
 
 This workflow supports two options for energy-aware job scheduling:
 
-🔹 Option 1: Fixed Daylight Window (slurm_daylight_scheduler.sh)
+Option 1: Fixed Daylight Window (slurm_daylight_scheduler.sh)
 
 This script assumes a fixed daylight window between 07:00 and 19:00.
 - It checks the current time.
@@ -55,7 +55,7 @@ This script assumes a fixed daylight window between 07:00 and 19:00.
 
 This option is simple and lets users easily adjust the daylight window manually in the script if needed.
 
-🔹 Option 2: Dynamic Sunlight Detection (slurm_daylight_automated_scheduler.sh)
+Option 2: Dynamic Sunlight Detection (slurm_daylight_automated_scheduler.sh)
 
 This script automatically retrieves the actual sunrise and sunset times for Berlin using the sunrise-sunset.org API.
 - It fetches real daylight times based on the current date and location (Berlin: lat=52.52, lng=13.41).
@@ -63,7 +63,7 @@ This script automatically retrieves the actual sunrise and sunset times for Berl
 - If the current time is outside this refined daylight window, the script delays the job to the next sunrise period.
 - If for some reason the job can't run during daylight (e.g., all nodes busy), it will still run afterward when resources are available.
 
-💡 Use daylight_controlled_workflow.nf with Option 1 (fixed daylight), and daylight_automated_workflow.nf with Option 2 (real sunlight detection).
+Use daylight_controlled_workflow.nf with Option 1 (fixed daylight), and daylight_automated_workflow.nf with Option 2 (real sunlight detection).
 
 ---
 
@@ -154,7 +154,7 @@ sacct -S today -u your_username
 
 ## Getting jq Locally
 
-⚠️ If jq is not available on your system (as is the case on HPC@HU), download it manually:
+If jq is not available on your system (as is the case on HPC@HU), download it manually:
 
     wget -O $HOME/jq https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64
     chmod +x $HOME/jq
