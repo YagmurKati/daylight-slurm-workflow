@@ -18,7 +18,7 @@ The workflows are **portable** and can be adapted to other SLURM-based HPC syste
 
 ##  Quick Start
 
-### 📘 Option 1: Fixed Daylight Window (07:00–19:00)
+### Option 1: Fixed Daylight Window (07:00–19:00)
 This uses a static window for daylight. You can modify the `slurm_daylight_scheduler.sh` script to change that range.
 
 ```bash
