@@ -200,7 +200,7 @@ Conference on the Foundations of Software Engineering (pp. 429-439). ACM. https:
 
 ---
 
-## 📖 Citation
+## Citation
 
 If you use this workflow in your research or HPC-related work, please cite:
 
