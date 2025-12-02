@@ -200,25 +200,6 @@ Conference on the Foundations of Software Engineering (pp. 429-439). ACM. https:
 
 ---
 
-## Citation
-
-If you use this workflow in your research or HPC-related work, please cite:
-
-Yagmur Kati. "Daylight-Controlled SLURM Workflow (Nextflow)." GitHub, 2025. https://github.com/YagmurKati/daylight-slurm-workflow
-
-You can also use the following BibTeX entry:
-
-```bibtex
-@misc{kati2025daylightworkflow,
-  author       = {Yagmur Kati},
-  title        = {Daylight-Controlled SLURM Workflow (Nextflow)},
-  year         = {2025},
-  howpublished = {\url{https://github.com/YagmurKati/daylight-slurm-workflow}},
-  note         = {GitHub repository}
-}
-
----
-
 ## 📬 Contact
 
 Questions or suggestions?
