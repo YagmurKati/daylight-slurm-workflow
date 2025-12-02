@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this workflow in your research or HPC-related work, please cite it as below."
+title: "Daylight-Controlled SLURM Workflow (Nextflow)"
+authors:
+  - family-names: "Kati"
+    given-names: "Yagmur"
+type: software
+year: 2025
+url: "https://github.com/YagmurKati/daylight-slurm-workflow"
