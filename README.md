@@ -200,7 +200,7 @@ Conference on the Foundations of Software Engineering (pp. 429-439). ACM. https:
 
 ---
 
-## 📬 Contact
+## Contact
 
 Questions or suggestions?
 Contact: yagmur.kati@hu-berlin.de
